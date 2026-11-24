@@ -1,0 +1,21 @@
+name: Main source
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited]
+
+permissions: {}
+
+jobs:
+  only-dev-into-main:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          SOURCE_BRANCH: ${{ github.head_ref }}
+          SOURCE_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+        run: |
+          if [ "$SOURCE_BRANCH" != "dev" ] || [ "$SOURCE_REPO" != "$GITHUB_REPOSITORY" ]; then
+            echo "::error::Only dev can be merged into main. Open this PR into dev instead."
+            exit 1
+          fi
