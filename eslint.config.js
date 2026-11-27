@@ -33,6 +33,19 @@ export default defineConfig([
     },
   },
   {
+    files: ['src/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            { regex: '^\\.{1,2}(/|$)', message: 'Use the @/ alias instead of a relative import.' },
+          ],
+        },
+      ],
+    },
+  },
+  {
     files: ['src/**/*.tsx'],
     ignores: ['src/main.tsx'],
     plugins: { 'check-file': checkFile },
